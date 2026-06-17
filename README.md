@@ -3,6 +3,12 @@
 A full-stack login/signup app with email notifications, password reset,
 strong-password rules, and country-aware phone validation.
 
+## Screenshots
+
+| Log in | Sign up |
+|--------|---------|
+| ![Login page](react-login/screenshots/login.png) | ![Signup page](react-login/screenshots/signup.png) |
+
 ## Project structure
 
 ```
@@ -35,27 +41,61 @@ PostgreSQL database named `loginapp` with three tables (auto-created on start):
 Connection settings live in `backend/.env` (PGHOST, PGPORT, PGUSER,
 PGPASSWORD, PGDATABASE).
 
-## Running locally
+## Setup & run (step by step)
 
-### 1. Backend
+You need **Node.js** and **PostgreSQL** installed.
+
+### 1. Create the database
+
+In `psql` (or pgAdmin), create an empty database:
+
+```sql
+CREATE DATABASE loginapp;
+```
+
+The three tables (`users`, `password_resets`, `login_history`) are created
+**automatically** the first time the backend starts — no manual table setup.
+
+### 2. Configure the backend
 
 ```bash
 cd backend
 npm install
-npm start          # starts on http://localhost:3001
+cp .env.example .env       # then edit .env
 ```
 
-Requires a running PostgreSQL server and a database matching `.env`.
+Open `backend/.env` and set your own PostgreSQL details:
 
-### 2. Frontend
+```
+PGHOST=localhost
+PGPORT=5432
+PGUSER=postgres
+PGPASSWORD=your-postgres-password   # <- your password
+PGDATABASE=loginapp
+JWT_SECRET=any-long-random-string
+FRONTEND_URL=http://localhost:5173
+```
+
+(You can leave `GMAIL_USER` / `GMAIL_APP_PASSWORD` blank — the app falls
+back to a free Ethereal test inbox and prints a preview link in the console.)
+
+### 3. Start the backend
+
+```bash
+npm start          # http://localhost:3001
+```
+
+You should see `✅ Connected to PostgreSQL database "loginapp"`.
+
+### 4. Start the frontend (second terminal)
 
 ```bash
 cd react-login
 npm install
-npm run dev        # starts on http://localhost:5173
+npm run dev        # http://localhost:5173
 ```
 
-Open http://localhost:5173 in your browser.
+Then open **http://localhost:5173** in a browser and use the Sign up / Log in form.
 
 ## Notes
 
