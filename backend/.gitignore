@@ -1,0 +1,4 @@
+# Never share these:
+.env
+node_modules/
+users.json
